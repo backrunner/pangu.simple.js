@@ -1,8 +1,8 @@
 /*!
- * pangu.js
+ * pangu.simple.js
  * --------
  * @version: <%= version %>
  * @homepage: <%= homepage %>
  * @license: <%= license %>
- * @author: Vinta Chen <vinta.chen@gmail.com> (https://github.com/vinta)
+ * @author: BackRunner
  */

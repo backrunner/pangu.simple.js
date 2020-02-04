@@ -1,6 +1,6 @@
 {
-  "name": "pangu",
-  "description": "Paranoid text spacing for good readability, to automatically insert whitespace between CJK (Chinese, Japanese, Korean) and half-width characters (alphabetical letters, numerical digits and symbols).",
+  "name": "pangu.simple",
+  "description": "Simplified pangu.js",
   "keywords": [
     "pangu",
     "text-spacing",
@@ -17,20 +17,18 @@
     "ocd",
     "paranoia"
   ],
-  "version": "4.0.7",
+  "version": "1.0.0",
   "author": {
-    "name": "Vinta Chen",
-    "email": "vinta.chen@gmail.com",
-    "url": "https://vinta.ws/code/"
+    "name": "BackRunner"
   },
   "license": "MIT",
-  "homepage": "https://github.com/vinta/pangu.js",
+  "homepage": "https://github.com/backrunner/pangu.simple.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/vinta/pangu.js.git"
+    "url": "git://github.com/backrunner/pangu.simple.js.git"
   },
   "bugs": {
-    "url": "https://github.com/vinta/pangu.js/issues"
+    "url": "https://github.com/backrunner/pangu.simple.js/issues"
   },
   "main": "./dist/node/index.js",
   "browser": "./dist/browser/pangu.js",
@@ -41,9 +39,9 @@
     "pack:chrome": "npm run build:browser && cp -rf ./dist/browser/pangu.min.js ./browser_extensions/chrome/vendors/pangu/pangu.min.js && cd ./browser_extensions/chrome/ && zip -q -r -0 ../paranoid-auto-spacing.zip . && zip -j ../paranoid-auto-spacing.zip ~/Dropbox/Projects/paranoid-auto-spacing/key.pem",
     "pack:firefox": "node ./browser_extensions/firefox/pack.js",
     "pack": "npm run pack:chrome && npm run pack:firefox",
-    "clear:shared": "rm -rf ./dist/shared/",
-    "clear:browser": "rm -rf ./dist/browser/",
-    "clear:node": "rm -rf ./dist/node/",
+    "clear:shared": "del /f /q dist\\shared",
+    "clear:browser": "del /f /q dist\\browser",
+    "clear:node": "del dist/node",
     "clear": "npm run clear:shared && npm run clear:browser && npm run clear:node",
     "build:shared": "npm run clear:shared && babel src/shared/ -d dist/shared/",
     "build:browser": "npm run clear:browser && webpack",

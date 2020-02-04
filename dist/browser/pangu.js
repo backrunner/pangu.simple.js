@@ -1,10 +1,10 @@
 /*!
- * pangu.js
+ * pangu.simple.js
  * --------
- * @version: 4.0.7
- * @homepage: https://github.com/vinta/pangu.js
+ * @version: 1.0.0
+ * @homepage: https://github.com/backrunner/pangu.simple.js
  * @license: MIT
- * @author: Vinta Chen <vinta.chen@gmail.com> (https://github.com/vinta)
+ * @author: BackRunner
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -581,48 +581,38 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
   var CJK = "\u2E80-\u2EFF\u2F00-\u2FDF\u3040-\u309F\u30A0-\u30FA\u30FC-\u30FF\u3100-\u312F\u3200-\u32FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF";
   var ANY_CJK = new RegExp("[".concat(CJK, "]"));
-  var CONVERT_TO_FULLWIDTH_CJK_SYMBOLS_CJK = new RegExp("([".concat(CJK, "])[ ]*([\\:]+|\\.)[ ]*([").concat(CJK, "])"), 'g');
-  var CONVERT_TO_FULLWIDTH_CJK_SYMBOLS = new RegExp("([".concat(CJK, "])[ ]*([~\\!;,\\?]+)[ ]*"), 'g');
-  var DOTS_CJK = new RegExp("([\\.]{2,}|\u2026)([".concat(CJK, "])"), 'g');
-  var FIX_CJK_COLON_ANS = new RegExp("([".concat(CJK, "])\\:([A-Z0-9\\(\\)])"), 'g');
-  var CJK_QUOTE = new RegExp("([".concat(CJK, "])([`\"\u05F4])"), 'g');
-  var QUOTE_CJK = new RegExp("([`\"\u05F4])([".concat(CJK, "])"), 'g');
-  var FIX_QUOTE_ANY_QUOTE = /([`"\u05f4]+)[ ]*(.+?)[ ]*([`"\u05f4]+)/g;
-  var CJK_SINGLE_QUOTE_BUT_POSSESSIVE = new RegExp("([".concat(CJK, "])('[^s])"), 'g');
-  var SINGLE_QUOTE_CJK = new RegExp("(')([".concat(CJK, "])"), 'g');
-  var FIX_POSSESSIVE_SINGLE_QUOTE = new RegExp("([A-Za-z0-9".concat(CJK, "])( )('s)"), 'g');
-  var HASH_ANS_CJK_HASH = new RegExp("([".concat(CJK, "])(#)([").concat(CJK, "]+)(#)([").concat(CJK, "])"), 'g');
-  var CJK_HASH = new RegExp("([".concat(CJK, "])(#([^ ]))"), 'g');
-  var HASH_CJK = new RegExp("(([^ ])#)([".concat(CJK, "])"), 'g');
-  var CJK_OPERATOR_ANS = new RegExp("([".concat(CJK, "])([\\+\\-\\*\\/=&\\|<>])([A-Za-z0-9])"), 'g');
-  var ANS_OPERATOR_CJK = new RegExp("([A-Za-z0-9])([\\+\\-\\*\\/=&\\|<>])([".concat(CJK, "])"), 'g');
-  var FIX_SLASH_AS = /([/]) ([a-z\-_\./]+)/g;
-  var FIX_SLASH_AS_SLASH = /([/\.])([A-Za-z\-_\./]+) ([/])/g;
-  var CJK_LEFT_BRACKET = new RegExp("([".concat(CJK, "])([\\(\\[\\{<>\u201C])"), 'g');
-  var RIGHT_BRACKET_CJK = new RegExp("([\\)\\]\\}<>\u201D])([".concat(CJK, "])"), 'g');
-  var FIX_LEFT_BRACKET_ANY_RIGHT_BRACKET = /([\(\[\{<\u201c]+)[ ]*(.+?)[ ]*([\)\]\}>\u201d]+)/;
-  var ANS_CJK_LEFT_BRACKET_ANY_RIGHT_BRACKET = new RegExp("([A-Za-z0-9".concat(CJK, "])[ ]*([\u201C])([A-Za-z0-9").concat(CJK, "\\-_ ]+)([\u201D])"), 'g');
-  var LEFT_BRACKET_ANY_RIGHT_BRACKET_ANS_CJK = new RegExp("([\u201C])([A-Za-z0-9".concat(CJK, "\\-_ ]+)([\u201D])[ ]*([A-Za-z0-9").concat(CJK, "])"), 'g');
-  var AN_LEFT_BRACKET = /([A-Za-z0-9])([\(\[\{])/g;
-  var RIGHT_BRACKET_AN = /([\)\]\}])([A-Za-z0-9])/g;
-  var CJK_ANS = new RegExp("([".concat(CJK, "])([A-Za-z\u0370-\u03FF0-9@\\$%\\^&\\*\\-\\+\\\\=\\|/\xA1-\xFF\u2150-\u218F\u2700\u2014\u27BF])"), 'g');
-  var ANS_CJK = new RegExp("([A-Za-z\u0370-\u03FF0-9~\\$%\\^&\\*\\-\\+\\\\=\\|/!;:,\\.\\?\xA1-\xFF\u2150-\u218F\u2700\u2014\u27BF])([".concat(CJK, "])"), 'g');
-  var S_A = /(%)([A-Za-z])/g;
-  var MIDDLE_DOT = /([ ]*)([\u00b7\u2022\u2027])([ ]*)/g;
+  var SYMBOL_WIDE = '`~!@#$%*^&()_/\\-+=<>?:"{}|,.;\'[\\]·~￥%——|\\\\';
+  var SYMBOL = '`~!@#$%^&()_/\\-+=<>?:"{}|,.;\'[\\]·~￥%——|\\\\';
+  var SYMBOL_LEFT = '`~!@#$%^&(_/\\-+=<>?:"{|,.;\'[·~￥%——|\\\\';
+  var SYMBOL_RIGHT = '`~!@#$%^&)_/\\-+=<>?:"}|,.;\'\\]·~￥%——|\\\\';
+  var SYMBOL_SAFE = '`~!#$%^&_/\\-+=<>?:"|,;\'·~￥%——|\\\\';
+  var ALPHA_CJK = new RegExp("([A-Za-z_])([".concat(CJK, "]+)"), 'g');
+  var CJK_ALPHA = new RegExp("([".concat(CJK, "]+)([A-Za-z_])"), 'g');
+  var NUMBER_CJK = new RegExp("([0-9_])([".concat(CJK, "]+)"), 'g');
+  var CJK_NUMBER = new RegExp("([".concat(CJK, "]+)([0-9_])"), 'g');
+  var CJK_AND_ALPHA = new RegExp("([".concat(CJK, "]+)(&)([A-Za-z_])"), 'g');
+  var ALPHA_AND_CJK = new RegExp("([A-Za-z_])(&)([".concat(CJK, "]+)"), 'g');
+  var ALPHA_SYMBOL_CJK = new RegExp("([A-Za-z_])([".concat(SYMBOL_RIGHT, "])([").concat(CJK, "])"), 'g');
+  var CJK_SYMBOL_ALPHA = new RegExp("([".concat(CJK, "])([").concat(SYMBOL_LEFT, "])([A-Za-z_])"), 'g');
+  var NUMBER_SYMBOL_CJK = new RegExp("([0-9_])([".concat(SYMBOL, "])([").concat(CJK, "])"), 'g');
+  var CJK_SYMBOL_NUMBER = new RegExp("([".concat(CJK, "])([").concat(SYMBOL, "])([0-9_])"), 'g');
+  var CJK_BRACKET = new RegExp("([".concat(CJK, "])([<\\[{\\(])"), 'g');
+  var BRACKET_CJK = new RegExp("([>\\]\\)}])([".concat(CJK, "])"), 'g');
+  var ALPHA_NUMBER_CJK = new RegExp("([A-Za-z_])([0-9_])([".concat(CJK, "])"), 'g');
+  var CJK_SYMBOL_SYMBOL = new RegExp("([".concat(CJK, "])([").concat(SYMBOL_WIDE, "])([").concat(SYMBOL_WIDE, "])"), 'g');
+  var SYMBOL_SYMBOL_CJK = new RegExp("([".concat(SYMBOL_WIDE, "])([").concat(SYMBOL_WIDE, "])([").concat(CJK, "])"), 'g');
+  var CJK_SYMBOL_CJK_SYMBOL_CJK = new RegExp("([".concat(CJK, "])([").concat(SYMBOL_SAFE, "])([").concat(CJK, "])([").concat(SYMBOL_SAFE, "])([").concat(CJK, "])"), 'g');
+  var CJK_SYMBOL_CJK = new RegExp("([".concat(CJK, "])([").concat(SYMBOL_SAFE, "])([").concat(CJK, "])"), 'g');
+  var CJK_ACCOUNT_CJK = new RegExp("([".concat(CJK, "])(\\s*)(@[A-za-z0-9_]*)(\\s*)([").concat(CJK, "]+)(\\s*)([A-za-z0-9_]+)(\\s*)([").concat(CJK, "])"));
 
-  var Pangu = function () {
-    function Pangu() {
-      _classCallCheck(this, Pangu);
+  var PanguSimple = function () {
+    function PanguSimple() {
+      _classCallCheck(this, PanguSimple);
 
-      this.version = '4.0.7';
+      this.version = '1.0.0';
     }
 
-    _createClass(Pangu, [{
-      key: "convertToFullwidth",
-      value: function convertToFullwidth(symbols) {
-        return symbols.replace(/~/g, '～').replace(/!/g, '！').replace(/;/g, '；').replace(/:/g, '：').replace(/,/g, '，').replace(/\./g, '。').replace(/\?/g, '？');
-      }
-    }, {
+    _createClass(PanguSimple, [{
       key: "spacing",
       value: function spacing(text) {
         if (typeof text !== 'string') {
@@ -636,40 +626,24 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
         var self = this;
         var newText = text;
-        newText = newText.replace(CONVERT_TO_FULLWIDTH_CJK_SYMBOLS_CJK, function (match, leftCjk, symbols, rightCjk) {
-          var fullwidthSymbols = self.convertToFullwidth(symbols);
-          return "".concat(leftCjk).concat(fullwidthSymbols).concat(rightCjk);
-        });
-        newText = newText.replace(CONVERT_TO_FULLWIDTH_CJK_SYMBOLS, function (match, cjk, symbols) {
-          var fullwidthSymbols = self.convertToFullwidth(symbols);
-          return "".concat(cjk).concat(fullwidthSymbols);
-        });
-        newText = newText.replace(DOTS_CJK, '$1 $2');
-        newText = newText.replace(FIX_CJK_COLON_ANS, '$1：$2');
-        newText = newText.replace(CJK_QUOTE, '$1 $2');
-        newText = newText.replace(QUOTE_CJK, '$1 $2');
-        newText = newText.replace(FIX_QUOTE_ANY_QUOTE, '$1$2$3');
-        newText = newText.replace(CJK_SINGLE_QUOTE_BUT_POSSESSIVE, '$1 $2');
-        newText = newText.replace(SINGLE_QUOTE_CJK, '$1 $2');
-        newText = newText.replace(FIX_POSSESSIVE_SINGLE_QUOTE, "$1's");
-        newText = newText.replace(HASH_ANS_CJK_HASH, '$1 $2$3$4 $5');
-        newText = newText.replace(CJK_HASH, '$1 $2');
-        newText = newText.replace(HASH_CJK, '$1 $3');
-        newText = newText.replace(CJK_OPERATOR_ANS, '$1 $2 $3');
-        newText = newText.replace(ANS_OPERATOR_CJK, '$1 $2 $3');
-        newText = newText.replace(FIX_SLASH_AS, '$1$2');
-        newText = newText.replace(FIX_SLASH_AS_SLASH, '$1$2$3');
-        newText = newText.replace(CJK_LEFT_BRACKET, '$1 $2');
-        newText = newText.replace(RIGHT_BRACKET_CJK, '$1 $2');
-        newText = newText.replace(FIX_LEFT_BRACKET_ANY_RIGHT_BRACKET, '$1$2$3');
-        newText = newText.replace(ANS_CJK_LEFT_BRACKET_ANY_RIGHT_BRACKET, '$1 $2$3$4');
-        newText = newText.replace(LEFT_BRACKET_ANY_RIGHT_BRACKET_ANS_CJK, '$1$2$3 $4');
-        newText = newText.replace(AN_LEFT_BRACKET, '$1 $2');
-        newText = newText.replace(RIGHT_BRACKET_AN, '$1 $2');
-        newText = newText.replace(CJK_ANS, '$1 $2');
-        newText = newText.replace(ANS_CJK, '$1 $2');
-        newText = newText.replace(S_A, '$1 $2');
-        newText = newText.replace(MIDDLE_DOT, '・');
+        newText = newText.replace(ALPHA_NUMBER_CJK, '$1$2 $3');
+        newText = newText.replace(ALPHA_CJK, '$1 $2');
+        newText = newText.replace(CJK_ALPHA, '$1 $2');
+        newText = newText.replace(NUMBER_CJK, '$1 $2');
+        newText = newText.replace(CJK_NUMBER, '$1 $2');
+        newText = newText.replace(CJK_AND_ALPHA, '$1 $2 $3');
+        newText = newText.replace(ALPHA_AND_CJK, '$1 $2 $3');
+        newText = newText.replace(ALPHA_SYMBOL_CJK, '$1$2 $3');
+        newText = newText.replace(CJK_SYMBOL_ALPHA, '$1 $2$3');
+        newText = newText.replace(NUMBER_SYMBOL_CJK, '$1$2 $3');
+        newText = newText.replace(CJK_SYMBOL_NUMBER, '$1 $2$3');
+        newText = newText.replace(CJK_SYMBOL_SYMBOL, '$1 $2$3');
+        newText = newText.replace(SYMBOL_SYMBOL_CJK, '$1$2 $3');
+        newText = newText.replace(BRACKET_CJK, '$1 $2');
+        newText = newText.replace(CJK_BRACKET, '$1 $2');
+        newText = newText.replace(CJK_SYMBOL_CJK_SYMBOL_CJK, '$1 $2 $3 $4 $5');
+        newText = newText.replace(CJK_SYMBOL_CJK, '$1 $2 $3');
+        newText = newText.replace(CJK_ACCOUNT_CJK, '$1 $3$5$7 $9');
         return newText;
       }
     }, {
@@ -694,13 +668,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       }
     }]);
 
-    return Pangu;
+    return PanguSimple;
   }();
 
-  var pangu = new Pangu();
+  var pangu = new PanguSimple();
   module.exports = pangu;
   module.exports.default = pangu;
-  module.exports.Pangu = Pangu;
+  module.exports.Pangu = pangu;
 });
 
 /***/ })

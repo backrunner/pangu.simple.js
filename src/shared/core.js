@@ -28,164 +28,108 @@ const CJK = '\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30fa\u30fc-\u30ff\u
 
 const ANY_CJK = new RegExp(`[${CJK}]`);
 
-// the symbol part only includes ~ ! ; : , . ? but . only matches one character
-const CONVERT_TO_FULLWIDTH_CJK_SYMBOLS_CJK = new RegExp(`([${CJK}])[ ]*([\\:]+|\\.)[ ]*([${CJK}])`, 'g');
-const CONVERT_TO_FULLWIDTH_CJK_SYMBOLS = new RegExp(`([${CJK}])[ ]*([~\\!;,\\?]+)[ ]*`, 'g');
-const DOTS_CJK = new RegExp(`([\\.]{2,}|\u2026)([${CJK}])`, 'g');
-const FIX_CJK_COLON_ANS = new RegExp(`([${CJK}])\\:([A-Z0-9\\(\\)])`, 'g');
+// common symbols
+//const SYMBOL = /[`~!@#$%^&*()_/\-+=<>?:"{}|,.;'[\]·~@#￥%&*——\-+={}|]/;
+const SYMBOL_WIDE = '`~!@#$%*^&()_/\\-+=<>?:"{}|,.;\'[\\]·~￥%——|\\\\';
+const SYMBOL = '`~!@#$%^&()_/\\-+=<>?:"{}|,.;\'[\\]·~￥%——|\\\\';
+const SYMBOL_LEFT = '`~!@#$%^&(_/\\-+=<>?:"{|,.;\'[·~￥%——|\\\\';
+const SYMBOL_RIGHT = '`~!@#$%^&)_/\\-+=<>?:"}|,.;\'\\]·~￥%——|\\\\';
+const SYMBOL_SAFE = '`~!#$%^&_/\\-+=<>?:"|,;\'·~￥%——|\\\\';
 
-// the symbol part does not include '
-const CJK_QUOTE = new RegExp(`([${CJK}])([\`"\u05f4])`, 'g');
-const QUOTE_CJK = new RegExp(`([\`"\u05f4])([${CJK}])`, 'g');
-const FIX_QUOTE_ANY_QUOTE = /([`"\u05f4]+)[ ]*(.+?)[ ]*([`"\u05f4]+)/g;
+const ALPHA_CJK = new RegExp(`([A-Za-z_])([${CJK}]+)`, 'g');
+const CJK_ALPHA = new RegExp(`([${CJK}]+)([A-Za-z_])`, 'g');
+const NUMBER_CJK = new RegExp(`([0-9_])([${CJK}]+)`, 'g');
+const CJK_NUMBER = new RegExp(`([${CJK}]+)([0-9_])`, 'g');
+const CJK_AND_ALPHA = new RegExp(`([${CJK}]+)(&)([A-Za-z_])`, 'g');
+const ALPHA_AND_CJK = new RegExp(`([A-Za-z_])(&)([${CJK}]+)`, 'g');
+const ALPHA_SYMBOL_CJK = new RegExp(`([A-Za-z_])([${SYMBOL_RIGHT}])([${CJK}])`, 'g');
+const CJK_SYMBOL_ALPHA = new RegExp(`([${CJK}])([${SYMBOL_LEFT}])([A-Za-z_])`, 'g');
+const NUMBER_SYMBOL_CJK = new RegExp(`([0-9_])([${SYMBOL}])([${CJK}])`, 'g');
+const CJK_SYMBOL_NUMBER = new RegExp(`([${CJK}])([${SYMBOL}])([0-9_])`, 'g');
+const CJK_BRACKET = new RegExp(`([${CJK}])([<\\[{\\(])`, 'g');
+const BRACKET_CJK =  new RegExp(`([>\\]\\)}])([${CJK}])`, 'g');
+const ALPHA_NUMBER_CJK = new RegExp(`([A-Za-z_])([0-9_])([${CJK}])`, 'g');
+const CJK_SYMBOL_SYMBOL = new RegExp(`([${CJK}])([${SYMBOL_WIDE}])([${SYMBOL_WIDE}])`, 'g');
+const SYMBOL_SYMBOL_CJK = new RegExp(`([${SYMBOL_WIDE}])([${SYMBOL_WIDE}])([${CJK}])`, 'g');
+const CJK_SYMBOL_CJK_SYMBOL_CJK = new RegExp(`([${CJK}])([${SYMBOL_SAFE}])([${CJK}])([${SYMBOL_SAFE}])([${CJK}])`, 'g');
+const CJK_SYMBOL_CJK = new RegExp(`([${CJK}])([${SYMBOL_SAFE}])([${CJK}])`, 'g');
+const CJK_ACCOUNT_CJK = new RegExp(`([${CJK}])(\\s*)(@[A-za-z0-9_]*)(\\s*)([${CJK}]+)(\\s*)([A-za-z0-9_]+)(\\s*)([${CJK}])`);
 
-const CJK_SINGLE_QUOTE_BUT_POSSESSIVE = new RegExp(`([${CJK}])('[^s])`, 'g');
-const SINGLE_QUOTE_CJK = new RegExp(`(')([${CJK}])`, 'g');
-const FIX_POSSESSIVE_SINGLE_QUOTE = new RegExp(`([A-Za-z0-9${CJK}])( )('s)`, 'g');
-
-const HASH_ANS_CJK_HASH = new RegExp(`([${CJK}])(#)([${CJK}]+)(#)([${CJK}])`, 'g');
-const CJK_HASH = new RegExp(`([${CJK}])(#([^ ]))`, 'g');
-const HASH_CJK = new RegExp(`(([^ ])#)([${CJK}])`, 'g');
-
-// the symbol part only includes + - * / = & | < >
-const CJK_OPERATOR_ANS = new RegExp(`([${CJK}])([\\+\\-\\*\\/=&\\|<>])([A-Za-z0-9])`, 'g');
-const ANS_OPERATOR_CJK = new RegExp(`([A-Za-z0-9])([\\+\\-\\*\\/=&\\|<>])([${CJK}])`, 'g');
-
-const FIX_SLASH_AS = /([/]) ([a-z\-_\./]+)/g;
-const FIX_SLASH_AS_SLASH = /([/\.])([A-Za-z\-_\./]+) ([/])/g;
-
-// the bracket part only includes ( ) [ ] { } < > “ ”
-const CJK_LEFT_BRACKET = new RegExp(`([${CJK}])([\\(\\[\\{<>\u201c])`, 'g');
-const RIGHT_BRACKET_CJK = new RegExp(`([\\)\\]\\}<>\u201d])([${CJK}])`, 'g');
-const FIX_LEFT_BRACKET_ANY_RIGHT_BRACKET = /([\(\[\{<\u201c]+)[ ]*(.+?)[ ]*([\)\]\}>\u201d]+)/;
-const ANS_CJK_LEFT_BRACKET_ANY_RIGHT_BRACKET = new RegExp(`([A-Za-z0-9${CJK}])[ ]*([\u201c])([A-Za-z0-9${CJK}\\-_ ]+)([\u201d])`, 'g');
-const LEFT_BRACKET_ANY_RIGHT_BRACKET_ANS_CJK = new RegExp(`([\u201c])([A-Za-z0-9${CJK}\\-_ ]+)([\u201d])[ ]*([A-Za-z0-9${CJK}])`, 'g');
-
-const AN_LEFT_BRACKET = /([A-Za-z0-9])([\(\[\{])/g;
-const RIGHT_BRACKET_AN = /([\)\]\}])([A-Za-z0-9])/g;
-
-const CJK_ANS = new RegExp(`([${CJK}])([A-Za-z\u0370-\u03ff0-9@\\$%\\^&\\*\\-\\+\\\\=\\|/\u00a1-\u00ff\u2150-\u218f\u2700—\u27bf])`, 'g');
-const ANS_CJK = new RegExp(`([A-Za-z\u0370-\u03ff0-9~\\$%\\^&\\*\\-\\+\\\\=\\|/!;:,\\.\\?\u00a1-\u00ff\u2150-\u218f\u2700—\u27bf])([${CJK}])`, 'g');
-
-const S_A = /(%)([A-Za-z])/g;
-
-const MIDDLE_DOT = /([ ]*)([\u00b7\u2022\u2027])([ ]*)/g;
-
-class Pangu {
-  constructor() {
-    this.version = '4.0.7';
-  }
-
-  convertToFullwidth(symbols) {
-    return symbols
-      .replace(/~/g, '～')
-      .replace(/!/g, '！')
-      .replace(/;/g, '；')
-      .replace(/:/g, '：')
-      .replace(/,/g, '，')
-      .replace(/\./g, '。')
-      .replace(/\?/g, '？');
-  }
-
-  spacing(text) {
-    if (typeof text !== 'string') {
-      console.warn(`spacing(text) only accepts string but got ${typeof text}`); // eslint-disable-line no-console
-      return text;
+class PanguSimple {
+    constructor() {
+        this.version = '1.0.0';
     }
 
-    if (text.length <= 1 || !ANY_CJK.test(text)) {
-      return text;
+    spacing(text) {
+        if (typeof text !== 'string') {
+            console.warn(`spacing(text) only accepts string but got ${typeof text}`); // eslint-disable-line no-console
+            return text;
+        }
+
+        if (text.length <= 1 || !ANY_CJK.test(text)) {
+            return text;
+        }
+
+        const self = this;
+
+        // DEBUG
+        // String.prototype.rawReplace = String.prototype.replace;
+        // String.prototype.replace = function(regexp, newSubstr) {
+        //   const oldText = this;
+        //   const newText = this.rawReplace(regexp, newSubstr);
+        //   if (oldText !== newText) {
+        //     console.log(`regexp: ${regexp}`);
+        //     console.log(`oldText: ${oldText}`);
+        //     console.log(`newText: ${newText}`);
+        //   }
+        //   return newText;
+        // };
+
+        let newText = text;
+
+        newText = newText.replace(ALPHA_NUMBER_CJK, '$1$2 $3');
+        newText = newText.replace(ALPHA_CJK, '$1 $2');
+        newText = newText.replace(CJK_ALPHA, '$1 $2');
+        newText = newText.replace(NUMBER_CJK, '$1 $2');
+        newText = newText.replace(CJK_NUMBER, '$1 $2');
+        newText = newText.replace(CJK_AND_ALPHA, '$1 $2 $3');
+        newText = newText.replace(ALPHA_AND_CJK, '$1 $2 $3');
+        newText = newText.replace(ALPHA_SYMBOL_CJK, '$1$2 $3');
+        newText = newText.replace(CJK_SYMBOL_ALPHA, '$1 $2$3');
+        newText = newText.replace(NUMBER_SYMBOL_CJK, '$1$2 $3');
+        newText = newText.replace(CJK_SYMBOL_NUMBER, '$1 $2$3');
+        newText = newText.replace(CJK_SYMBOL_SYMBOL, '$1 $2$3');
+        newText = newText.replace(SYMBOL_SYMBOL_CJK, '$1$2 $3');
+        newText = newText.replace(BRACKET_CJK, '$1 $2');
+        newText = newText.replace(CJK_BRACKET, '$1 $2');
+        newText = newText.replace(CJK_SYMBOL_CJK_SYMBOL_CJK, '$1 $2 $3 $4 $5');
+        newText = newText.replace(CJK_SYMBOL_CJK, '$1 $2 $3');
+        newText = newText.replace(CJK_ACCOUNT_CJK, '$1 $3$5$7 $9');
+
+        // DEBUG
+        // String.prototype.replace = String.prototype.rawReplace;
+
+        return newText;
     }
 
-    const self = this;
-
-    // DEBUG
-    // String.prototype.rawReplace = String.prototype.replace;
-    // String.prototype.replace = function(regexp, newSubstr) {
-    //   const oldText = this;
-    //   const newText = this.rawReplace(regexp, newSubstr);
-    //   if (oldText !== newText) {
-    //     console.log(`regexp: ${regexp}`);
-    //     console.log(`oldText: ${oldText}`);
-    //     console.log(`newText: ${newText}`);
-    //   }
-    //   return newText;
-    // };
-
-    let newText = text;
-
-    // https://stackoverflow.com/questions/4285472/multiple-regex-replace
-    newText = newText.replace(CONVERT_TO_FULLWIDTH_CJK_SYMBOLS_CJK, (match, leftCjk, symbols, rightCjk) => {
-      const fullwidthSymbols = self.convertToFullwidth(symbols);
-      return `${leftCjk}${fullwidthSymbols}${rightCjk}`;
-    });
-
-    newText = newText.replace(CONVERT_TO_FULLWIDTH_CJK_SYMBOLS, (match, cjk, symbols) => {
-      const fullwidthSymbols = self.convertToFullwidth(symbols);
-      return `${cjk}${fullwidthSymbols}`;
-    });
-
-    newText = newText.replace(DOTS_CJK, '$1 $2');
-    newText = newText.replace(FIX_CJK_COLON_ANS, '$1：$2');
-
-    newText = newText.replace(CJK_QUOTE, '$1 $2');
-    newText = newText.replace(QUOTE_CJK, '$1 $2');
-    newText = newText.replace(FIX_QUOTE_ANY_QUOTE, '$1$2$3');
-
-    newText = newText.replace(CJK_SINGLE_QUOTE_BUT_POSSESSIVE, '$1 $2');
-    newText = newText.replace(SINGLE_QUOTE_CJK, '$1 $2');
-    newText = newText.replace(FIX_POSSESSIVE_SINGLE_QUOTE, "$1's"); // eslint-disable-line quotes
-
-    newText = newText.replace(HASH_ANS_CJK_HASH, '$1 $2$3$4 $5');
-    newText = newText.replace(CJK_HASH, '$1 $2');
-    newText = newText.replace(HASH_CJK, '$1 $3');
-
-    newText = newText.replace(CJK_OPERATOR_ANS, '$1 $2 $3');
-    newText = newText.replace(ANS_OPERATOR_CJK, '$1 $2 $3');
-
-    newText = newText.replace(FIX_SLASH_AS, '$1$2');
-    newText = newText.replace(FIX_SLASH_AS_SLASH, '$1$2$3');
-
-    newText = newText.replace(CJK_LEFT_BRACKET, '$1 $2');
-    newText = newText.replace(RIGHT_BRACKET_CJK, '$1 $2');
-    newText = newText.replace(FIX_LEFT_BRACKET_ANY_RIGHT_BRACKET, '$1$2$3');
-    newText = newText.replace(ANS_CJK_LEFT_BRACKET_ANY_RIGHT_BRACKET, '$1 $2$3$4');
-    newText = newText.replace(LEFT_BRACKET_ANY_RIGHT_BRACKET_ANS_CJK, '$1$2$3 $4');
-
-    newText = newText.replace(AN_LEFT_BRACKET, '$1 $2');
-    newText = newText.replace(RIGHT_BRACKET_AN, '$1 $2');
-
-    newText = newText.replace(CJK_ANS, '$1 $2');
-    newText = newText.replace(ANS_CJK, '$1 $2');
-
-    newText = newText.replace(S_A, '$1 $2');
-
-    newText = newText.replace(MIDDLE_DOT, '・');
-
-    // DEBUG
-    // String.prototype.replace = String.prototype.rawReplace;
-
-    return newText;
-  }
-
-  spacingText(text, callback = () => {}) {
-    let newText;
-    try {
-      newText = this.spacing(text);
-    } catch (err) {
-      callback(err);
-      return;
+    spacingText(text, callback = () => {}) {
+        let newText;
+        try {
+            newText = this.spacing(text);
+        } catch (err) {
+            callback(err);
+            return;
+        }
+        callback(null, newText);
     }
-    callback(null, newText);
-  }
 
-  spacingTextSync(text) {
-    return this.spacing(text);
-  }
+    spacingTextSync(text) {
+        return this.spacing(text);
+    }
 }
 
-const pangu = new Pangu();
+const pangu = new PanguSimple();
 
 module.exports = pangu;
 module.exports.default = pangu;
-module.exports.Pangu = Pangu;
+module.exports.Pangu = pangu;

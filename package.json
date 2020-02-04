@@ -41,7 +41,7 @@
     "pack": "npm run pack:chrome && npm run pack:firefox",
     "clear:shared": "del /f /q dist\\shared",
     "clear:browser": "del /f /q dist\\browser",
-    "clear:node": "del dist/node",
+    "clear:node": "del /f /q dist\\node",
     "clear": "npm run clear:shared && npm run clear:browser && npm run clear:node",
     "build:shared": "npm run clear:shared && babel src/shared/ -d dist/shared/",
     "build:browser": "npm run clear:browser && webpack",
@@ -83,5 +83,9 @@
     "watch": "1.0.2",
     "webpack": "4.28.3",
     "webpack-cli": "3.1.2"
+  },
+  "dependencies": {
+    "browserslist": "^4.8.6",
+    "caniuse-lite": "^1.0.30001025"
   }
 }

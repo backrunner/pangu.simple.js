@@ -605,14 +605,14 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   var CJK_SYMBOL_CJK = new RegExp("([".concat(CJK, "])([").concat(SYMBOL_SAFE, "])([").concat(CJK, "])"), 'g');
   var CJK_ACCOUNT_CJK = new RegExp("([".concat(CJK, "])(\\s*)(@[A-za-z0-9_]*)(\\s*)([").concat(CJK, "]+)(\\s*)([A-za-z0-9_]+)(\\s*)([").concat(CJK, "])"));
 
-  var PanguSimple = function () {
-    function PanguSimple() {
-      _classCallCheck(this, PanguSimple);
+  var Pangu = function () {
+    function Pangu() {
+      _classCallCheck(this, Pangu);
 
       this.version = '1.0.0';
     }
 
-    _createClass(PanguSimple, [{
+    _createClass(Pangu, [{
       key: "spacing",
       value: function spacing(text) {
         if (typeof text !== 'string') {
@@ -668,13 +668,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       }
     }]);
 
-    return PanguSimple;
+    return Pangu;
   }();
 
-  var pangu = new PanguSimple();
+  var pangu = new Pangu();
   module.exports = pangu;
   module.exports.default = pangu;
-  module.exports.Pangu = pangu;
+  module.exports.Pangu = Pangu;
 });
 
 /***/ })

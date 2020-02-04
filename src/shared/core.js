@@ -55,7 +55,7 @@ const CJK_SYMBOL_CJK_SYMBOL_CJK = new RegExp(`([${CJK}])([${SYMBOL_SAFE}])([${CJ
 const CJK_SYMBOL_CJK = new RegExp(`([${CJK}])([${SYMBOL_SAFE}])([${CJK}])`, 'g');
 const CJK_ACCOUNT_CJK = new RegExp(`([${CJK}])(\\s*)(@[A-za-z0-9_]*)(\\s*)([${CJK}]+)(\\s*)([A-za-z0-9_]+)(\\s*)([${CJK}])`);
 
-class PanguSimple {
+class Pangu {
     constructor() {
         this.version = '1.0.0';
     }
@@ -128,8 +128,8 @@ class PanguSimple {
     }
 }
 
-const pangu = new PanguSimple();
+const pangu = new Pangu();
 
 module.exports = pangu;
 module.exports.default = pangu;
-module.exports.Pangu = pangu;
+module.exports.Pangu = Pangu;

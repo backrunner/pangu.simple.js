@@ -35,7 +35,8 @@ describe('Pangu', () => {
         });
 
         it ('处理 -', () => {
-            assert.equal(pangu.spacing('前面-后面'), '前面 - 后面');
+            assert.equal(pangu.spacing('前面-后面'), '前面-后面');
+            assert.equal(pangu.spacing('前面——后面'), '前面 —— 后面');
             assert.equal(pangu.spacing('Mac-OS'), 'Mac-OS');
             assert.equal(pangu.spacing('今天的日期是2020-01-01'),'今天的日期是 2020-01-01');
         });
@@ -80,6 +81,9 @@ describe('Pangu', () => {
             assert.equal(pangu.spacing('backrunner@gmail.com'), 'backrunner@gmail.com');
             assert.equal(pangu.spacing('今天@kano直播'), '今天 @kano 直播');
             assert.equal(pangu.spacing('今天@神乐mea直播'), '今天 @神乐mea 直播');
+            assert.equal(pangu.spacing('今天@神乐七奈直播'), '今天@神乐七奈直播');
+            assert.equal(pangu.spacing('今天 @神乐七奈 直播'), '今天 @神乐七奈 直播');
+            assert.equal(pangu.spacing('今天@凑-阿库娅直播'), '今天@凑-阿库娅直播');
         });
 
         it ('处理 #', () => {

@@ -1,7 +1,7 @@
 /*!
  * pangu.simple.js
  * --------
- * @version: 1.0.0
+ * @version: 1.0.1
  * @homepage: https://github.com/backrunner/pangu.simple.js
  * @license: MIT
  * @author: BackRunner
@@ -581,11 +581,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
   var CJK = "\u2E80-\u2EFF\u2F00-\u2FDF\u3040-\u309F\u30A0-\u30FA\u30FC-\u30FF\u3100-\u312F\u3200-\u32FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF";
   var ANY_CJK = new RegExp("[".concat(CJK, "]"));
-  var SYMBOL_WIDE = '`~!@#$%*^&()_/\\-+=<>?:"{}|,.;\'[\\]·~￥%——|\\\\';
-  var SYMBOL = '`~!@#$%^&()_/\\-+=<>?:"{}|,.;\'[\\]·~￥%——|\\\\';
-  var SYMBOL_LEFT = '`~!@#$%^&(_/\\-+=<>?:"{|,.;\'[·~￥%——|\\\\';
-  var SYMBOL_RIGHT = '`~!@#$%^&)_/\\-+=<>?:"}|,.;\'\\]·~￥%——|\\\\';
-  var SYMBOL_SAFE = '`~!#$%^&_/\\-+=<>?:"|,;\'·~￥%——|\\\\';
+  var SYMBOL_WIDE = '`~!@#$%*^&()/\\-+=<>?:"{}|,.;\'[\\]·~￥%——|\\\\';
+  var SYMBOL = '`~!@#$%^&()/\\-+=<>?:"{}|,.;\'[\\]·~￥%——|\\\\';
+  var SYMBOL_LEFT = '`~!@#$%^&(/\\-+=<>?:"{|,.;\'[·~￥%——|\\\\';
+  var SYMBOL_RIGHT = '`~!@#$%^&)/\\-+=<>?:"}|,.;\'\\]·~￥%——|\\\\';
+  var SYMBOL_SAFE = '`~!#$%^&/+=<>?:"|,;\'·~￥%——|\\\\';
   var ALPHA_CJK = new RegExp("([A-Za-z_])([".concat(CJK, "]+)"), 'g');
   var CJK_ALPHA = new RegExp("([".concat(CJK, "]+)([A-Za-z_])"), 'g');
   var NUMBER_CJK = new RegExp("([0-9_])([".concat(CJK, "]+)"), 'g');

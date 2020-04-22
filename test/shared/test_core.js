@@ -46,6 +46,7 @@ describe('Pangu', () => {
             assert.equal(pangu.spacing('百度.中国'), '百度.中国');
             assert.equal(pangu.spacing('我打开了www.baidu.com'), '我打开了 www.baidu.com');
             assert.equal(pangu.spacing('github.com'), 'github.com');
+            assert.equal(pangu.spacing('你好，是我。你好，是我。'), '你好，是我。你好，是我。');
         });
 
         it ('处理斜杠', () => {

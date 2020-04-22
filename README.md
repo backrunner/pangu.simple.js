@@ -16,6 +16,18 @@ Based on Vinta's version, modded by BackRunner.
 ## 修改
 
 - 去除了对中间点的转换
-- 去除了标点强制到Full-width的转换
+- 去除了标点强制到 Full-width 的转换
 - 替换原有正则为一套更加适合普通写作的新正则
 - 重写测试代码
+
+## 用法
+
+浏览器：
+
+下载 /dist/browser 内的 pangu.js/pangu.min.js，用 script 标签载入脚本。
+
+使用方式同原本的 pangu.js，修改只针对核心部分，API 均无变动
+
+Node：
+
+npm 安装或下载 /dist 中内容后按照原版 pangu.js 的使用方式使用即可。

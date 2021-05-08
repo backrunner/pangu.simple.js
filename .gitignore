@@ -4,3 +4,4 @@ browser_extensions/paranoid-auto-spacing.zip
 coverage/
 node_modules/
 .vscode
+.history

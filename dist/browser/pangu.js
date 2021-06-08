@@ -1,7 +1,7 @@
 /*!
  * pangu.simple.js
  * --------
- * @version: 1.0.3
+ * @version: 1.0.4
  * @homepage: https://github.com/backrunner/pangu.simple.js
  * @license: MIT
  * @author: BackRunner

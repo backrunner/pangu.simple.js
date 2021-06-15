@@ -17,7 +17,7 @@
     "ocd",
     "paranoia"
   ],
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": {
     "name": "BackRunner"
   },
@@ -57,12 +57,14 @@
     "watch:pack": "watch 'npm run pack' src/shared src/browser test/browser/"
   },
   "devDependencies": {
-    "@babel/cli": "^7.14.3",
-    "@babel/core": "^7.14.3",
-    "@babel/preset-env": "^7.14.4",
-    "@babel/register": "^7.13.16",
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.5",
+    "@babel/register": "^7.14.5",
     "babel-loader": "^8.2.2",
     "benchmark": "2.1.4",
+    "browserslist": "^4.16.6",
+    "caniuse-lite": "^1.0.30001237",
     "chai": "^4.3.4",
     "eslint": "5.11.1",
     "eslint-config-airbnb-base": "13.1.0",
@@ -83,9 +85,5 @@
     "watch": "1.0.2",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
-  },
-  "dependencies": {
-    "browserslist": "^4.16.6",
-    "caniuse-lite": "^1.0.30001235"
   }
 }

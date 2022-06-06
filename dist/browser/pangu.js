@@ -330,11 +330,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             }
           }
 
-          if (this.canIgnoreNode(currentTextNode)) {
-            nextTextNode = currentTextNode;
-            continue;
-          }
-
           var newText = this.spacing(currentTextNode.data);
 
           if (currentTextNode.data !== newText) {

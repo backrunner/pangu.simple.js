@@ -165,11 +165,6 @@ class BrowserPangu extends Pangu {
         }
       }
 
-      if (this.canIgnoreNode(currentTextNode)) {
-        nextTextNode = currentTextNode;
-        continue;
-      }
-
       const newText = this.spacing(currentTextNode.data);
       if (currentTextNode.data !== newText) {
         currentTextNode.data = newText;

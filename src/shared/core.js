@@ -47,7 +47,7 @@ const CJK_SYMBOL_ALPHA = new RegExp(`([${CJK}])([${SYMBOL_LEFT}])([A-Za-z_])`, '
 const NUMBER_SYMBOL_CJK = new RegExp(`([0-9_])([${SYMBOL}])([${CJK}])`, 'g');
 const CJK_SYMBOL_NUMBER = new RegExp(`([${CJK}])([${SYMBOL}])([0-9_])`, 'g');
 const CJK_BRACKET = new RegExp(`([${CJK}])([<\\[{\\(])`, 'g');
-const BRACKET_CJK =  new RegExp(`([>\\]\\)}])([${CJK}])`, 'g');
+const BRACKET_CJK = new RegExp(`([>\\]\\)}])([${CJK}])`, 'g');
 const ALPHA_NUMBER_CJK = new RegExp(`([A-Za-z_])([0-9_])([${CJK}])`, 'g');
 const CJK_SYMBOL_SYMBOL = new RegExp(`([${CJK}])([${SYMBOL_WIDE}])([${SYMBOL_WIDE}])`, 'g');
 const SYMBOL_SYMBOL_CJK = new RegExp(`([${SYMBOL_WIDE}])([${SYMBOL_WIDE}])([${CJK}])`, 'g');
@@ -56,76 +56,76 @@ const CJK_SYMBOL_CJK = new RegExp(`([${CJK}])([${SYMBOL_SAFE}])([${CJK}])`, 'g')
 const CJK_ACCOUNT_CJK = new RegExp(`([${CJK}])(\\s*)(@[A-za-z0-9_]*)(\\s*)([${CJK}]+)(\\s*)([A-za-z0-9_]+)(\\s*)([${CJK}])`);
 
 class Pangu {
-    constructor() {
-        this.version = '1.0.0';
+  constructor() {
+    this.version = '1.0.0';
+  }
+
+  spacing(text) {
+    if (typeof text !== 'string') {
+      console.warn(`spacing(text) only accepts string but got ${typeof text}`); // eslint-disable-line no-console
+      return text;
     }
 
-    spacing(text) {
-        if (typeof text !== 'string') {
-            console.warn(`spacing(text) only accepts string but got ${typeof text}`); // eslint-disable-line no-console
-            return text;
-        }
-
-        if (text.length <= 1 || !ANY_CJK.test(text)) {
-            return text;
-        }
-
-        const self = this;
-
-        // DEBUG
-        // String.prototype.rawReplace = String.prototype.replace;
-        // String.prototype.replace = function(regexp, newSubstr) {
-        //   const oldText = this;
-        //   const newText = this.rawReplace(regexp, newSubstr);
-        //   if (oldText !== newText) {
-        //     console.log(`regexp: ${regexp}`);
-        //     console.log(`oldText: ${oldText}`);
-        //     console.log(`newText: ${newText}`);
-        //   }
-        //   return newText;
-        // };
-
-        let newText = text;
-
-        newText = newText.replace(ALPHA_NUMBER_CJK, '$1$2 $3');
-        newText = newText.replace(ALPHA_CJK, '$1 $2');
-        newText = newText.replace(CJK_ALPHA, '$1 $2');
-        newText = newText.replace(NUMBER_CJK, '$1 $2');
-        newText = newText.replace(CJK_NUMBER, '$1 $2');
-        newText = newText.replace(CJK_AND_ALPHA, '$1 $2 $3');
-        newText = newText.replace(ALPHA_AND_CJK, '$1 $2 $3');
-        newText = newText.replace(ALPHA_SYMBOL_CJK, '$1$2 $3');
-        newText = newText.replace(CJK_SYMBOL_ALPHA, '$1 $2$3');
-        newText = newText.replace(NUMBER_SYMBOL_CJK, '$1$2 $3');
-        newText = newText.replace(CJK_SYMBOL_NUMBER, '$1 $2$3');
-        newText = newText.replace(CJK_SYMBOL_SYMBOL, '$1 $2$3');
-        newText = newText.replace(SYMBOL_SYMBOL_CJK, '$1$2 $3');
-        newText = newText.replace(BRACKET_CJK, '$1 $2');
-        newText = newText.replace(CJK_BRACKET, '$1 $2');
-        newText = newText.replace(CJK_SYMBOL_CJK_SYMBOL_CJK, '$1 $2 $3 $4 $5');
-        newText = newText.replace(CJK_SYMBOL_CJK, '$1 $2 $3');
-        newText = newText.replace(CJK_ACCOUNT_CJK, '$1 $3$5$7 $9');
-
-        // DEBUG
-        // String.prototype.replace = String.prototype.rawReplace;
-
-        return newText;
+    if (text.length <= 1 || !ANY_CJK.test(text)) {
+      return text;
     }
 
-    spacingText(text, callback = () => {}) {
-        let newText;
-        try {
-            newText = this.spacing(text);
-        } catch (err) {
-            callback(err);
-            return;
-        }
-        callback(null, newText);
-    }
+    const self = this;
 
-    spacingTextSync(text) {
-        return this.spacing(text);
+    // DEBUG
+    // String.prototype.rawReplace = String.prototype.replace;
+    // String.prototype.replace = function(regexp, newSubstr) {
+    //   const oldText = this;
+    //   const newText = this.rawReplace(regexp, newSubstr);
+    //   if (oldText !== newText) {
+    //     console.log(`regexp: ${regexp}`);
+    //     console.log(`oldText: ${oldText}`);
+    //     console.log(`newText: ${newText}`);
+    //   }
+    //   return newText;
+    // };
+
+    let newText = text;
+
+    newText = newText.replace(ALPHA_NUMBER_CJK, '$1$2 $3');
+    newText = newText.replace(ALPHA_CJK, '$1 $2');
+    newText = newText.replace(CJK_ALPHA, '$1 $2');
+    newText = newText.replace(NUMBER_CJK, '$1 $2');
+    newText = newText.replace(CJK_NUMBER, '$1 $2');
+    newText = newText.replace(CJK_AND_ALPHA, '$1 $2 $3');
+    newText = newText.replace(ALPHA_AND_CJK, '$1 $2 $3');
+    newText = newText.replace(ALPHA_SYMBOL_CJK, '$1$2 $3');
+    newText = newText.replace(CJK_SYMBOL_ALPHA, '$1 $2$3');
+    newText = newText.replace(NUMBER_SYMBOL_CJK, '$1$2 $3');
+    newText = newText.replace(CJK_SYMBOL_NUMBER, '$1 $2$3');
+    newText = newText.replace(CJK_SYMBOL_SYMBOL, '$1 $2$3');
+    newText = newText.replace(SYMBOL_SYMBOL_CJK, '$1$2 $3');
+    newText = newText.replace(BRACKET_CJK, '$1 $2');
+    newText = newText.replace(CJK_BRACKET, '$1 $2');
+    newText = newText.replace(CJK_SYMBOL_CJK_SYMBOL_CJK, '$1 $2 $3 $4 $5');
+    newText = newText.replace(CJK_SYMBOL_CJK, '$1 $2 $3');
+    newText = newText.replace(CJK_ACCOUNT_CJK, '$1 $3$5$7 $9');
+
+    // DEBUG
+    // String.prototype.replace = String.prototype.rawReplace;
+
+    return newText;
+  }
+
+  spacingText(text, callback = () => {}) {
+    let newText;
+    try {
+      newText = this.spacing(text);
+    } catch (err) {
+      callback(err);
+      return;
     }
+    callback(null, newText);
+  }
+
+  spacingTextSync(text) {
+    return this.spacing(text);
+  }
 }
 
 const pangu = new Pangu();

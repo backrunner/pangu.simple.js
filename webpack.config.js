@@ -2,6 +2,7 @@ var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
 var TerserPlugin = require('terser-webpack-plugin');
+var CopyPlugin = require('copy-webpack-plugin');
 var webpack = require('webpack');
 
 var packageInfo = require('./package.json');
@@ -61,6 +62,11 @@ module.exports = {
       banner: bannerText,
       raw: true,
       entryOnly: true
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: "./src/index.d.ts", to: "../" },
+      ],
     })
   ]
 }

@@ -1,7 +1,7 @@
 <div align="center"><a>pangu.simple</a></div>
 
 <p align="center">
-Based on Vinta's version, modded by BackRunner.
+Based on Vinta's version, modified by BackRunner.
 </p>
 <p align="center">
 一个更加干净好用的 pangu.js
@@ -9,25 +9,47 @@ Based on Vinta's version, modded by BackRunner.
 
 ## 概述
 
-之所以做这个版本主要是因为原本的 pangu.js 对内容做了过度的转化，有的东西不是我想要的，我只是想要加个空格。
+原版的 pangu.js 对内容做了过度的转化，有的东西并不符合中国大陆开发者对文字排版的需要。
 
-所以特别做了这个版本来处理排版。
+这个版本替换了核心 pangu.js 的核心代码，同时去除了一些不必要的转换，来满足开发者更常规化的排版需求。
 
 ## 修改
 
 - 去除了对中间点的转换
+
 - 去除了标点强制到 Full-width 的转换
+
 - 替换原有正则为一套更加适合普通写作的新正则
+
 - 重写测试代码
 
 ## 用法
 
-浏览器：
+### 使用 npm 引入
 
-下载 /dist/browser 内的 pangu.js/pangu.min.js，用 script 标签载入脚本。
+Step 1: 安装这个包
 
-使用方式同原本的 pangu.js，修改只针对核心部分，API 均无变动
+```bash
+$ npm install pangu.simple
+```
 
-Node：
+Step 2: 引入这个包
 
-npm 安装或下载 /dist 中内容后按照原版 pangu.js 的使用方式使用即可。
+```js
+import pangu from 'pangu.simple';
+
+pangu.spacingText('为什么你们就不能加一个Space呢');
+```
+
+### CDN 引入
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/pangu.simple@1.0.5/dist/browser/pangu.js"></script>
+```
+
+### License
+
+MIT
+
+Copyright (c) 2020 - 2022 BackRunner (For modified parts)
+Copyright (c) 2013 Vinta (For original parts)
